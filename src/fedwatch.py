@@ -109,10 +109,7 @@ def implied_rate(price):
 
     Works on scalars and pandas Series alike.
     """
-    ## TODO: Implement this function as specified in the docstring above.
-    raise NotImplementedError(
-        "Implement implied_rate (see HOMEWORK INSTRUCTIONS at the top of this file)"
-    )
+    return 100 - price
 
 
 def latest_prices_by_contract(df, as_of=None):
@@ -144,40 +141,32 @@ def latest_prices_by_contract(df, as_of=None):
 
 
 def solve_post_meeting_rate(r_avg, r_pre, meeting_end):
-    """Solve the day-weighted average for the expected post-meeting rate.
+    """Solve the day-weighted average for the expected post-meeting rate."""
+    d = meeting_end.day
+    N = meeting_end.days_in_month
 
-    The meeting ends on day d of an N-day month and the new rate takes
-    effect the next day, so d days accrue at r_pre and N - d at r_post:
+    r_post = (N * r_avg - d * r_pre) / (N - d)
 
-        r_avg = (d/N) * r_pre + ((N-d)/N) * r_post
-
-    Solve this equation for ``r_post`` and return it. (Hint: ``pd.Timestamp``
-    has ``.day`` and ``.days_in_month`` attributes.)
-    """
-    ## TODO: Implement this function as specified in the docstring above.
-    raise NotImplementedError(
-        "Implement solve_post_meeting_rate (see HOMEWORK INSTRUCTIONS at the top of this file)"
-    )
+    return r_post
 
 
 def move_probability(r_pre, r_post, step=0.25):
-    """Probability of a single `step`-sized move vs. no change.
+    """Probability of a single step-sized move vs. no change."""
+    if r_post > r_pre:
+        direction = "hike"
+    elif r_post < r_pre:
+        direction = "cut"
+    else:
+        direction = "no change"
 
-    The binary-outcome model: the market prices either no change or exactly
-    one move of `step` (25 bp), so the expected change identifies the
-    probability: P(move) = |r_post - r_pre| / step, clipped to [0, 1].
+    p_move = abs(r_post - r_pre) / step
+    p_move = max(0.0, min(1.0, p_move))
 
-    Returns a dict with exactly three keys:
-
-    - ``"direction"``: ``"hike"`` if r_post > r_pre, ``"cut"`` if
-      r_post < r_pre, else ``"no change"``
-    - ``"p_move"``: the clipped probability defined above
-    - ``"p_no_change"``: 1 - p_move
-    """
-    ## TODO: Implement this function as specified in the docstring above.
-    raise NotImplementedError(
-        "Implement move_probability (see HOMEWORK INSTRUCTIONS at the top of this file)"
-    )
+    return {
+        "direction": direction,
+        "p_move": p_move,
+        "p_no_change": 1 - p_move,
+    }
 
 
 def current_target_range(r_pre, step=0.25):
