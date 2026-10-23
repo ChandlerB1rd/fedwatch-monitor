@@ -1,0 +1,4 @@
+Name,Metadata Complete,Object Type,Identifier,Pipeline,Missing Fields,Page Link
+HW 4 - FedWatch Monitor,False,pipeline,ChandlerB1rd/fedwatch_monitor,ChandlerB1rd/fedwatch_monitor,repo_url,../index.html
+30-Day Fed Funds Futures Daily Bars (Databento),False,dataframe,fed_funds_futures,ChandlerB1rd/fedwatch_monitor,"sources, providers, provider_links",./dataframes/ChandlerB1rd--fedwatch_monitor/fed_funds_futures.html
+FedWatch: Next FOMC Meeting Probabilities,False,chart,fedwatch_latest_forecast,ChandlerB1rd/fedwatch_monitor,"observation_period, release_lag, release_timing",./charts/ChandlerB1rd--fedwatch_monitor.fedwatch_latest_forecast.html
